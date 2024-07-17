@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useMatch } from "react-router-dom";
+import { useLayoutEffect } from "react";
+import { useLocation, useMatch } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -43,9 +44,10 @@ const SpanVars = {
 };
 
 export default function Header() {
-  const mainMatch = useMatch("/");
-  const comingSoonMatch = useMatch("coming-soon");
-  const nowPlayingMatch = useMatch("now-playing");
+  const { pathname } = useLocation();
+  const mainMatch = pathname === "/" || pathname.startsWith("/movies");
+  const comingSoonMatch = pathname.startsWith("/coming-soon");
+  const nowPlayingMatch = pathname.startsWith("/now-playing");
 
   return (
     <HeaderContainer>
