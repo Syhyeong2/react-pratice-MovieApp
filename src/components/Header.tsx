@@ -47,7 +47,6 @@ export default function Header() {
   const comingSoonMatch = useMatch("coming-soon");
   const nowPlayingMatch = useMatch("now-playing");
 
-  console.log(mainMatch, comingSoonMatch, nowPlayingMatch);
   return (
     <HeaderContainer>
       <Category>

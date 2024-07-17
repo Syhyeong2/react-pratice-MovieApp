@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import { makeBgPath } from "../utils/Api";
 import { MoviesProps } from "../utils/Interface";
@@ -6,10 +6,12 @@ import {
   Link,
   Navigate,
   useLocation,
+  useMatch,
   useNavigate,
   useParams,
   useRoutes,
 } from "react-router-dom";
+import { createRoutes } from "../utils/Utils";
 
 const Container = styled(motion.div)`
   margin-top: 10px;
@@ -43,6 +45,23 @@ const MoviesTitle = styled(motion.div)`
   color: white;
 `;
 
+const Detail = styled(motion.div)`
+  position: fixed;
+  top: 100px;
+  height: 60vh;
+  width: 40vw;
+  background-color: red;
+`;
+
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+`;
+
 const ImgVars = {
   hover: {
     scale: 1.1,
@@ -68,26 +87,41 @@ const MoviesVars = {
 };
 
 export default function Movies({ movie }: MoviesProps) {
-  const { pathname } = useLocation();
-  console.log(pathname);
   const navigate = useNavigate();
-  const onBoxClicked = (movieId: number) => {
-    navigate(`movies/${movieId}`);
-  };
+  const { pathname } = useLocation();
+  const { movieId } = useParams();
+  console.log(movieId);
+  const onOverlayClick = () => navigate(`${createRoutes(pathname)}/`);
   return (
-    <Container variants={ContainerVars} initial="start" animate="end">
-      {movie?.map((movie, index) => (
-        <MoviesCard key={index} variants={MoviesVars}>
-          <MoviesImg
-            src={`${makeBgPath(movie.poster_path)}`}
-            variants={ImgVars}
-            whileHover="hover"
-            animate="end"
-            onClick={() => onBoxClicked(movie.id)}
-          />
-          <MoviesTitle>{movie.title}</MoviesTitle>
-        </MoviesCard>
-      ))}
-    </Container>
+    <>
+      <Container variants={ContainerVars} initial="start" animate="end">
+        {movie?.map((movie, index) => (
+          <MoviesCard key={index} variants={MoviesVars}>
+            <Link to={`${createRoutes(pathname)}/movies/${movie.id}`}>
+              <MoviesImg
+                layoutId={movie.id + ""}
+                src={`${makeBgPath(movie.poster_path)}`}
+                variants={ImgVars}
+                whileHover="hover"
+                animate="end"
+              />
+            </Link>
+            <MoviesTitle>{movie.title}</MoviesTitle>
+          </MoviesCard>
+        ))}
+      </Container>
+      <AnimatePresence>
+        {movieId ? (
+          <>
+            <Overlay
+              onClick={onOverlayClick}
+              exit={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            />
+            <Detail layoutId={movieId + ""} />{" "}
+          </>
+        ) : null}
+      </AnimatePresence>
+    </>
   );
 }
