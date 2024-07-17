@@ -16,10 +16,26 @@ const router = createBrowserRouter([
       {
         path: "coming-soon",
         element: <ComingSoon />,
+        children: [
+          {
+            path: "movies/:movieId",
+            element: <ComingSoon />,
+          },
+        ],
       },
       {
         path: "now-playing",
         element: <NowPlaying />,
+        children: [
+          {
+            path: "movies/:movieId",
+            element: <ComingSoon />,
+          },
+        ],
+      },
+      {
+        path: "movies/:movieId",
+        element: <Main />,
       },
     ],
   },

@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import Movies from "../components/Movies";
 import Loading from "../components/Loading";
+import { Suspense } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -25,8 +26,10 @@ export default function Main() {
     return <div>Error loading data</div>;
   }
   return (
-    <Container>
-      <Movies movie={movie} />
-    </Container>
+    <Suspense fallback={<Loading />}>
+      <Container>
+        <Movies movie={movie} />
+      </Container>
+    </Suspense>
   );
 }

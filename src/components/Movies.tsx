@@ -2,8 +2,14 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { makeBgPath } from "../utils/Api";
 import { MoviesProps } from "../utils/Interface";
-import { Link } from "react-router-dom";
-import { start } from "repl";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+  useRoutes,
+} from "react-router-dom";
 
 const Container = styled(motion.div)`
   margin-top: 10px;
@@ -62,18 +68,23 @@ const MoviesVars = {
 };
 
 export default function Movies({ movie }: MoviesProps) {
+  const { pathname } = useLocation();
+  console.log(pathname);
+  const navigate = useNavigate();
+  const onBoxClicked = (movieId: number) => {
+    navigate(`movies/${movieId}`);
+  };
   return (
     <Container variants={ContainerVars} initial="start" animate="end">
       {movie?.map((movie, index) => (
         <MoviesCard key={index} variants={MoviesVars}>
-          <Link to="/coming-soon">
-            <MoviesImg
-              src={`${makeBgPath(movie.poster_path)}`}
-              variants={ImgVars}
-              whileHover="hover"
-              animate="end"
-            />
-          </Link>
+          <MoviesImg
+            src={`${makeBgPath(movie.poster_path)}`}
+            variants={ImgVars}
+            whileHover="hover"
+            animate="end"
+            onClick={() => onBoxClicked(movie.id)}
+          />
           <MoviesTitle>{movie.title}</MoviesTitle>
         </MoviesCard>
       ))}
