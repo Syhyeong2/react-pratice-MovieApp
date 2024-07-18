@@ -12,6 +12,8 @@ import {
   useRoutes,
 } from "react-router-dom";
 import { createRoutes } from "../utils/Utils";
+import { useState } from "react";
+import Detail from "./Detail";
 
 const Container = styled(motion.div)`
   margin-top: 10px;
@@ -45,12 +47,16 @@ const MoviesTitle = styled(motion.div)`
   color: white;
 `;
 
-const Detail = styled(motion.div)`
+const DetailContainer = styled(motion.div)`
   position: fixed;
-  top: 100px;
-  height: 60vh;
-  width: 40vw;
-  background-color: red;
+  top: 130px;
+  height: 70vh;
+  width: 360px;
+  background-color: rgb(21, 21, 21);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
 `;
 
 const Overlay = styled(motion.div)`
@@ -90,7 +96,6 @@ export default function Movies({ movie }: MoviesProps) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { movieId } = useParams();
-  console.log(movieId);
   const onOverlayClick = () => navigate(`${createRoutes(pathname)}/`);
   return (
     <>
@@ -118,7 +123,9 @@ export default function Movies({ movie }: MoviesProps) {
               exit={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             />
-            <Detail layoutId={movieId + ""} />{" "}
+            <DetailContainer layoutId={movieId + ""}>
+              <Detail />
+            </DetailContainer>
           </>
         ) : null}
       </AnimatePresence>
