@@ -49,14 +49,15 @@ const MoviesTitle = styled(motion.div)`
 
 const DetailContainer = styled(motion.div)`
   position: fixed;
-  top: 130px;
-  height: 70vh;
+  top: 115px;
+  height: 75vh;
   width: 360px;
   background-color: rgb(21, 21, 21);
   border-radius: 10px;
   display: flex;
   justify-content: center;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const Overlay = styled(motion.div)`

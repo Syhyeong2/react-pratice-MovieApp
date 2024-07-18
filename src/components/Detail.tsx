@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { IMovieDetail } from "../utils/Interface";
 import { useState } from "react";
+import StarRating from "./StarRating";
 
 const MovieImg = styled(motion.img)`
   display: block;
@@ -35,7 +36,6 @@ const MovieTitle = styled.div`
   width: 240px;
   font-size: 36px;
   font-weight: bold;
-  margin-bottom: 10px;
 `;
 
 const MovieDetail = styled.div`
@@ -58,6 +58,12 @@ export default function Detail() {
       <Overlay />
       <DetailContainer>
         <MovieTitle>{data?.title}</MovieTitle>
+        <StarRating rate={data?.vote_average} count={data?.vote_count} />
+        <MovieDetail>release : {data?.release_date}</MovieDetail>
+        <MovieDetail>
+          runtime : {Math.floor((data?.runtime as number) / 60)} hours{" "}
+          {(data?.runtime as number) % 60} minutes
+        </MovieDetail>
         <MovieDetail>{data?.overview}</MovieDetail>
       </DetailContainer>
     </>

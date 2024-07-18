@@ -58,3 +58,8 @@ export interface IMovieResponse {
 export interface MoviesProps {
   movie?: IMovie[];
 }
+
+export interface IStarRatingProps {
+  rate?: number;
+  count?: number;
+}
