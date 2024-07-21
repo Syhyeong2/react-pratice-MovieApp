@@ -41,6 +41,7 @@ const MovieTitle = styled.div`
 const MovieDetail = styled.div`
   font-size: 14px;
   font-weight: 100;
+  margin-top: 10px;
 `;
 
 export default function Detail() {
